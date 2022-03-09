@@ -9,6 +9,7 @@ import java.util.List;
 
 @Component
 public class PosInMemoryDB implements PosDB {
+    public boolean cart_flag = false ;
     private List<Product> products = new ArrayList<>();
 
     private Cart cart;
@@ -21,7 +22,18 @@ public class PosInMemoryDB implements PosDB {
     @Override
     public Cart saveCart(Cart cart) {
         this.cart = cart;
+        cart_flag = true;
         return this.cart;
+    }
+
+    @Override
+    public void checkout() {
+        if(cart_flag){
+            System.out.println("Cart Ready");
+        }
+        else{
+            System.out.println("No Cart");
+        }
     }
 
     @Override

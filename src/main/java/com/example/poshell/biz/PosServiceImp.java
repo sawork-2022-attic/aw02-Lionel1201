@@ -13,6 +13,7 @@ import java.util.List;
 public class PosServiceImp implements PosService {
 
     private PosDB posDB;
+    private boolean cart_flag;
 
     @Autowired
     public void setPosDB(PosDB posDB) {
@@ -30,8 +31,8 @@ public class PosServiceImp implements PosService {
     }
 
     @Override
-    public void checkout(Cart cart) {
-
+    public void checkout() {
+        posDB.checkout();
     }
 
     @Override
@@ -40,8 +41,13 @@ public class PosServiceImp implements PosService {
     }
 
     @Override
-    public boolean add(Product product, int amount) {
-        return false;
+    public boolean modify(String productId, int amount) {
+        Product product = posDB.getProduct(productId);
+        if (product == null) return false;
+
+        this.getCart().modifyItem(new Item(product, amount));
+        return true;
+
     }
 
     @Override
